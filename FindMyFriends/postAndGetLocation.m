@@ -40,11 +40,11 @@
             NSLog(@"Error: %@",error);
             return ;
         }
-        //        NSString * jsonString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        //        NSLog(@"JSON: %@",jsonString);
         if ([status isEqualToString:@"getLoaction"]) {
             NSDictionary * dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:nil];
             NSArray * friendsStatus = dataDictionary[@"friends"];
+            //remove old annotations
+            [mainMapView removeAnnotations:mainMapView.annotations] ;
             if (dataDictionary[@"result"] == false) {
                 // Error
             }else{
@@ -65,6 +65,7 @@
                         //MapView add annotation
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [mainMapView addAnnotation:annotation];
+                            
                         });
                     }
                 }
