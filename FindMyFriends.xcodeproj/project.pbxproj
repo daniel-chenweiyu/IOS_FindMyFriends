@@ -15,6 +15,7 @@
 		65B7C1B31E092DD50049498E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B7C1B11E092DD50049498E /* LaunchScreen.storyboard */; };
 		65B7C1BC1E0930110049498E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B7C1BB1E0930110049498E /* CoreLocation.framework */; };
 		65B7C1BE1E0930170049498E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B7C1BD1E0930170049498E /* MapKit.framework */; };
+		65B7C1C41E0A39B50049498E /* postAndGetLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B7C1C31E0A39B50049498E /* postAndGetLocation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,8 @@
 		65B7C1B41E092DD50049498E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65B7C1BB1E0930110049498E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		65B7C1BD1E0930170049498E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		65B7C1C21E0A39B50049498E /* postAndGetLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postAndGetLocation.h; sourceTree = "<group>"; };
+		65B7C1C31E0A39B50049498E /* postAndGetLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = postAndGetLocation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +72,8 @@
 				65B7C1A71E092DD50049498E /* AppDelegate.m */,
 				65B7C1A91E092DD50049498E /* ViewController.h */,
 				65B7C1AA1E092DD50049498E /* ViewController.m */,
+				65B7C1C21E0A39B50049498E /* postAndGetLocation.h */,
+				65B7C1C31E0A39B50049498E /* postAndGetLocation.m */,
 				65B7C1AC1E092DD50049498E /* Main.storyboard */,
 				65B7C1AF1E092DD50049498E /* Assets.xcassets */,
 				65B7C1B11E092DD50049498E /* LaunchScreen.storyboard */,
@@ -169,6 +174,7 @@
 				65B7C1AB1E092DD50049498E /* ViewController.m in Sources */,
 				65B7C1A81E092DD50049498E /* AppDelegate.m in Sources */,
 				65B7C1A51E092DD50049498E /* main.m in Sources */,
+				65B7C1C41E0A39B50049498E /* postAndGetLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,6 +331,7 @@
 				65B7C1B91E092DD50049498E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

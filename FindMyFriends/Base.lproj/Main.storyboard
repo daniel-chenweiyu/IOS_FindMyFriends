@@ -84,7 +84,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="mainMapView" destination="NOw-Hp-efJ" id="Nfo-Ji-RL2"/>
+                        <outlet property="mainMapView" destination="NOw-Hp-efJ" id="1ac-pk-Csr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
