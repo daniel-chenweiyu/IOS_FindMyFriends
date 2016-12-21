@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NOw-Hp-efJ">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="gfn-vL-rhc"/>
+                                </connections>
+                            </mapView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="t2B-wR-poy">
+                                <rect key="frame" x="65" y="40" width="245" height="29"/>
+                                <segments>
+                                    <segment title="標準"/>
+                                    <segment title="衛星"/>
+                                    <segment title="混合"/>
+                                </segments>
+                                <connections>
+                                    <action selector="mapTypeChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="6Ad-v4-SYF"/>
+                                </connections>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="JE3-Tg-Dga">
+                                <rect key="frame" x="65" y="78" width="245" height="29"/>
+                                <segments>
+                                    <segment title="無"/>
+                                    <segment title="追蹤"/>
+                                    <segment title="追蹤和方向"/>
+                                </segments>
+                                <connections>
+                                    <action selector="userTrackingModeChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="h3y-x6-osF"/>
+                                </connections>
+                            </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CQw-Nl-f6T">
+                                <rect key="frame" x="16" y="617" width="92" height="30"/>
+                                <state key="normal" title="回到自己位置"/>
+                                <connections>
+                                    <action selector="showUserLocationBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kqp-Mc-lIU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OE8-VG-llj">
+                                <rect key="frame" x="267" y="617" width="92" height="30"/>
+                                <state key="normal" title="開始記錄軌跡"/>
+                                <connections>
+                                    <action selector="recordBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pAo-Zc-Ajz"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="t2B-wR-poy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7bk-1v-Wvi"/>
+                            <constraint firstItem="JE3-Tg-Dga" firstAttribute="top" secondItem="t2B-wR-poy" secondAttribute="bottom" constant="10" id="CGr-8C-rE3"/>
+                            <constraint firstAttribute="bottom" secondItem="CQw-Nl-f6T" secondAttribute="bottom" constant="20" symbolic="YES" id="JtV-4h-Jaa"/>
+                            <constraint firstItem="t2B-wR-poy" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="Mld-Ea-wz9"/>
+                            <constraint firstItem="OE8-VG-llj" firstAttribute="baseline" secondItem="CQw-Nl-f6T" secondAttribute="baseline" id="OMy-gC-pQb"/>
+                            <constraint firstItem="t2B-wR-poy" firstAttribute="trailing" secondItem="JE3-Tg-Dga" secondAttribute="trailing" id="TuB-ns-tPP"/>
+                            <constraint firstItem="NOw-Hp-efJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="VBH-a5-iLP"/>
+                            <constraint firstItem="t2B-wR-poy" firstAttribute="leading" secondItem="JE3-Tg-Dga" secondAttribute="leading" id="VXD-Rr-pd8"/>
+                            <constraint firstItem="CQw-Nl-f6T" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="XF4-At-duG"/>
+                            <constraint firstAttribute="trailing" secondItem="NOw-Hp-efJ" secondAttribute="trailing" id="Xe2-Oa-jrU"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="NOw-Hp-efJ" secondAttribute="bottom" id="fKP-cu-e99"/>
+                            <constraint firstItem="JE3-Tg-Dga" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="iDE-Ch-aFx"/>
+                            <constraint firstItem="NOw-Hp-efJ" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="isE-K9-ddk"/>
+                            <constraint firstItem="OE8-VG-llj" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="jxK-2x-2BW"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mainMapView" destination="NOw-Hp-efJ" id="Nfo-Ji-RL2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
