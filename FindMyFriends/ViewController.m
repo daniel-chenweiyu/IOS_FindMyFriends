@@ -15,8 +15,10 @@
     CLLocationCoordinate2D coordinate;
     NSTimer * timer;
     postAndGetLocation * postGetLocation ;
+    NSInteger targetIndex;
 }
 @property (weak, nonatomic) IBOutlet MKMapView *mainMapView;
+@property (weak, nonatomic) IBOutlet UIButton *userTrackingModeBtn;
 
 @end
 
@@ -24,6 +26,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //set userTrackingModeChange begin MKUserTrackingModeNone
+    targetIndex = 0 ;
     postGetLocation = [postAndGetLocation new];
     //set locationManager
     locationManager = [CLLocationManager new];
@@ -47,25 +51,42 @@
             break;
     }
 }
-- (IBAction)userTrackingModeChanged:(UISegmentedControl *)sender {
-    NSInteger targetIndex = [sender selectedSegmentIndex];
+- (IBAction)userTrackingModeChangedBtn:(UIButton *)sender {
+    targetIndex++ ;
+    if (targetIndex >= 3) {
+        targetIndex = 0;
+    }
     switch (targetIndex) {
-            
         case 0:
             _mainMapView.userTrackingMode = MKUserTrackingModeNone;
+            [_userTrackingModeBtn setImage:[UIImage imageNamed:@"normal"] forState:UIControlStateNormal];
             break;
         case 1:
             _mainMapView.userTrackingMode = MKUserTrackingModeFollow;
+            [_userTrackingModeBtn setImage:[UIImage imageNamed:@"trace"] forState:UIControlStateNormal];
             break;
         case 2:
             _mainMapView.userTrackingMode = MKUserTrackingModeFollowWithHeading;
+            [_userTrackingModeBtn setImage:[UIImage imageNamed:@"traceAndDirection"] forState:UIControlStateNormal];
             break;
-            
     }
 }
-- (IBAction)showUserLocationBtn:(UIButton *)sender {
-    [self showMyLocation];
-}
+//- (IBAction)userTrackingModeChanged:(UISegmentedControl *)sender {
+//    NSInteger targetIndex = [sender selectedSegmentIndex];
+//    switch (targetIndex) {
+//
+//        case 0:
+//            _mainMapView.userTrackingMode = MKUserTrackingModeNone;
+//            break;
+//        case 1:
+//            _mainMapView.userTrackingMode = MKUserTrackingModeFollow;
+//            break;
+//        case 2:
+//            _mainMapView.userTrackingMode = MKUserTrackingModeFollowWithHeading;
+//            break;
+//
+//    }
+//}
 - (IBAction)recordBtn:(UIButton *)sender {
 }
 
