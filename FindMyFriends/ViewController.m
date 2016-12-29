@@ -8,17 +8,22 @@
 
 #import "ViewController.h"
 #import "postAndGetLocation.h"
+#import "EditViewController.h"
 
-@interface ViewController ()<CLLocationManagerDelegate,MKMapViewDelegate>{
+@interface ViewController ()<CLLocationManagerDelegate,MKMapViewDelegate> {
     CLLocationManager * locationManager;
     CLLocation * currentLocation ;
     CLLocationCoordinate2D coordinate;
     NSTimer * timer;
     postAndGetLocation * postGetLocation ;
     NSInteger targetIndex;
+    BOOL recordTarget;
+    NSMutableArray * thisAppEdit;
 }
 @property (weak, nonatomic) IBOutlet MKMapView *mainMapView;
 @property (weak, nonatomic) IBOutlet UIButton *userTrackingModeBtn;
+@property (weak, nonatomic) IBOutlet UIButton *startAndStopRecordBtn;
+@property NSUserDefaults * userDefaults;
 
 @end
 
@@ -26,8 +31,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //set userDefault
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    [self userDefaultsSetting];
     //set userTrackingModeChange begin MKUserTrackingModeNone
     targetIndex = 0 ;
+    recordTarget = false;
     postGetLocation = [postAndGetLocation new];
     //set locationManager
     locationManager = [CLLocationManager new];
@@ -37,9 +46,39 @@
     locationManager.delegate = self;
     [locationManager startUpdatingLocation];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    //start update my loaction to server and get friends location from server
+    timer = [NSTimer scheduledTimerWithTimeInterval:[thisAppEdit[3] intValue] target:self selector:@selector(startUpdateAndGet) userInfo:nil repeats:YES];
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [timer invalidate];
+    timer = nil;
+}
+
+-(void)userDefaultsSetting {
+    NSArray * data = [self.userDefaults objectForKey:@"findMyFriendsEdit"];
+    if (data != nil) {
+        thisAppEdit = [NSMutableArray arrayWithArray:data];
+    }else{
+        thisAppEdit = [NSMutableArray new];
+        //userName(update to server name)
+        thisAppEdit[0] = @"預設使用者";
+        //allow update location to server
+        thisAppEdit[1] = @"1";
+        //allow download friends loaction from server
+        thisAppEdit[2] = @"1";
+        //frequency about update and download (for sec)
+        thisAppEdit[3] = @"60";
+        //hidding friends annotation
+        thisAppEdit[4] = @"1";
+        [self.userDefaults setObject:thisAppEdit forKey:@"findMyFriendsEdit"];
+        [self.userDefaults synchronize];
+    }
+    
+}
 - (IBAction)mapTypeChange:(UISegmentedControl *)sender {
-    NSInteger targetIndex = [sender selectedSegmentIndex];
-    switch (targetIndex) {
+    NSInteger mapTypetargetIndex = [sender selectedSegmentIndex];
+    switch (mapTypetargetIndex) {
         case 0:
             _mainMapView.mapType = MKMapTypeStandard;
             break;
@@ -52,6 +91,7 @@
     }
 }
 - (IBAction)userTrackingModeChangedBtn:(UIButton *)sender {
+    //defaul targetIndex = 0 so first press should be 1
     targetIndex++ ;
     if (targetIndex >= 3) {
         targetIndex = 0;
@@ -71,23 +111,14 @@
             break;
     }
 }
-//- (IBAction)userTrackingModeChanged:(UISegmentedControl *)sender {
-//    NSInteger targetIndex = [sender selectedSegmentIndex];
-//    switch (targetIndex) {
-//
-//        case 0:
-//            _mainMapView.userTrackingMode = MKUserTrackingModeNone;
-//            break;
-//        case 1:
-//            _mainMapView.userTrackingMode = MKUserTrackingModeFollow;
-//            break;
-//        case 2:
-//            _mainMapView.userTrackingMode = MKUserTrackingModeFollowWithHeading;
-//            break;
-//
-//    }
-//}
 - (IBAction)recordBtn:(UIButton *)sender {
+    if (recordTarget == false) {
+        [_startAndStopRecordBtn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
+        recordTarget = true;
+    }else{
+        [_startAndStopRecordBtn setImage:[UIImage imageNamed:@"run"] forState:UIControlStateNormal];
+        recordTarget = false;
+    }
 }
 
 #pragma mark - CLLocationManagerDelegate Methods
@@ -99,8 +130,8 @@
         [self showMyLocation];
         //do first startUpdateAndGet
         [self startUpdateAndGet];
-        //every 60s start update my loaction to server and get friends location from server
-        timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(startUpdateAndGet) userInfo:nil repeats:YES];
+        //start update my loaction to server and get friends location from server
+//        timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(startUpdateAndGet) userInfo:nil repeats:YES];
     });
 }
 
@@ -110,10 +141,20 @@
     [_mainMapView setRegion:region animated:true];
 }
 -(void)startUpdateAndGet{
+    [self userDefaultsSetting];
     if (currentLocation != nil) {
-        [postGetLocation updateMyLocation:coordinate];
-        [postGetLocation getFriendsLocation:_mainMapView];
+        if ([thisAppEdit[1]  isEqual: @"1"]) {
+            [postGetLocation updateMyLocation:coordinate userName:thisAppEdit[0]];
+        }
+        if ([thisAppEdit[2]  isEqual: @"1"]) {
+            [postGetLocation getFriendsLocation:_mainMapView userName:thisAppEdit[0] showOrHideAnnotation:thisAppEdit[4]];
+        }
     }
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    EditViewController * editViewController = segue.destinationViewController;
+    editViewController.mainMapView = _mainMapView;
 }
 
 - (void)didReceiveMemoryWarning {

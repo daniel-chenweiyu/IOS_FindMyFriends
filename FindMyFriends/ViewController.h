@@ -11,7 +11,7 @@
 #import <MapKit/MapKit.h>
 
 @interface ViewController : UIViewController
-
+-(void)userDefaultsSetting;
 
 @end
 

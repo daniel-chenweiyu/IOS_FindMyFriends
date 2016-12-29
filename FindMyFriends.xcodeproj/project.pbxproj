@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		652C9EB91E111C6400BD9FC0 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 652C9EB81E111C6400BD9FC0 /* EditViewController.m */; };
+		652C9EBB1E1249BD00BD9FC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 652C9EBA1E1249BD00BD9FC0 /* Assets.xcassets */; };
 		65B7C1A51E092DD50049498E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B7C1A41E092DD50049498E /* main.m */; };
 		65B7C1A81E092DD50049498E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B7C1A71E092DD50049498E /* AppDelegate.m */; };
 		65B7C1AB1E092DD50049498E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B7C1AA1E092DD50049498E /* ViewController.m */; };
 		65B7C1AE1E092DD50049498E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B7C1AC1E092DD50049498E /* Main.storyboard */; };
-		65B7C1B01E092DD50049498E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 65B7C1AF1E092DD50049498E /* Assets.xcassets */; };
 		65B7C1B31E092DD50049498E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65B7C1B11E092DD50049498E /* LaunchScreen.storyboard */; };
 		65B7C1BC1E0930110049498E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B7C1BB1E0930110049498E /* CoreLocation.framework */; };
 		65B7C1BE1E0930170049498E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65B7C1BD1E0930170049498E /* MapKit.framework */; };
@@ -19,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		652C9EB71E111C6400BD9FC0 /* EditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
+		652C9EB81E111C6400BD9FC0 /* EditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
+		652C9EBA1E1249BD00BD9FC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		65B7C1A01E092DD50049498E /* FindMyFriends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindMyFriends.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65B7C1A41E092DD50049498E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		65B7C1A61E092DD50049498E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -26,7 +30,6 @@
 		65B7C1A91E092DD50049498E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		65B7C1AA1E092DD50049498E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		65B7C1AD1E092DD50049498E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		65B7C1AF1E092DD50049498E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		65B7C1B21E092DD50049498E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		65B7C1B41E092DD50049498E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		65B7C1BB1E0930110049498E /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -75,9 +78,11 @@
 				65B7C1C21E0A39B50049498E /* postAndGetLocation.h */,
 				65B7C1C31E0A39B50049498E /* postAndGetLocation.m */,
 				65B7C1AC1E092DD50049498E /* Main.storyboard */,
-				65B7C1AF1E092DD50049498E /* Assets.xcassets */,
+				652C9EB71E111C6400BD9FC0 /* EditViewController.h */,
+				652C9EB81E111C6400BD9FC0 /* EditViewController.m */,
 				65B7C1B11E092DD50049498E /* LaunchScreen.storyboard */,
 				65B7C1B41E092DD50049498E /* Info.plist */,
+				652C9EBA1E1249BD00BD9FC0 /* Assets.xcassets */,
 				65B7C1A31E092DD50049498E /* Supporting Files */,
 			);
 			path = FindMyFriends;
@@ -159,7 +164,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65B7C1B31E092DD50049498E /* LaunchScreen.storyboard in Resources */,
-				65B7C1B01E092DD50049498E /* Assets.xcassets in Resources */,
+				652C9EBB1E1249BD00BD9FC0 /* Assets.xcassets in Resources */,
 				65B7C1AE1E092DD50049498E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -175,6 +180,7 @@
 				65B7C1A81E092DD50049498E /* AppDelegate.m in Sources */,
 				65B7C1A51E092DD50049498E /* main.m in Sources */,
 				65B7C1C41E0A39B50049498E /* postAndGetLocation.m in Sources */,
+				652C9EB91E111C6400BD9FC0 /* EditViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

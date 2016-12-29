@@ -16,23 +16,22 @@
 //        [self getFriendsLocation];
 //    }
 //}
--(void)updateMyLocation:(CLLocationCoordinate2D) coordinate{
+-(void)updateMyLocation:(CLLocationCoordinate2D) coordinate userName:(NSString*) userName{
     NSString * lat = [NSString stringWithFormat:@"%f",coordinate.latitude];
     NSString * lon = [NSString stringWithFormat:@"%f",coordinate.longitude];
-    NSString * name = @"陳威宇";
-    NSString * encodename = [name stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    NSString * urlString = [NSString stringWithFormat:@"http://class.softarts.cc/FindMyFriends/updateUserLocation.php?GroupName=ap104&UserName=%@&Lat=%@&Lon=%@",encodename,lat,lon];
+    NSString * encodeName = [userName stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSString * urlString = [NSString stringWithFormat:@"http://class.softarts.cc/FindMyFriends/updateUserLocation.php?GroupName=ap104&UserName=%@&Lat=%@&Lon=%@",encodeName,lat,lon];
     NSURL * url = [NSURL URLWithString:urlString];
-    [self sendCommandWithURL:url status:@"" mapView:nil];
+    [self sendCommandWithURL:url status:@"" mapView:nil userName:nil showOrHideAnnotation:nil];
     
 }
--(void)getFriendsLocation:(MKMapView*) mainMapView{
+-(void)getFriendsLocation:(MKMapView*) mainMapView userName:(NSString*) userName showOrHideAnnotation:(NSString*) showOrHideAnnotation{
     NSURL * url = [NSURL URLWithString:@"http://class.softarts.cc/FindMyFriends/queryFriendLocations.php?GroupName=ap104"];
     NSString * status =@"getLoaction";
-    [self sendCommandWithURL:url status:status mapView:mainMapView];
+    [self sendCommandWithURL:url status:status mapView:mainMapView userName:userName showOrHideAnnotation:showOrHideAnnotation];
 }
 
--(void) sendCommandWithURL: (NSURL*)url status:(NSString*) status mapView:(MKMapView*) mainMapView{
+-(void) sendCommandWithURL: (NSURL*)url status:(NSString*) status mapView:(MKMapView*) mainMapView userName:(NSString*) userName showOrHideAnnotation:(NSString*) showOrHideAnnotation{
     NSURLSessionConfiguration * config =[NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession * session = [NSURLSession sessionWithConfiguration:config];
     NSURLSessionDataTask * task = [session dataTaskWithURL:url completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -52,7 +51,8 @@
                 NSMutableDictionary * friendsDetial = [NSMutableDictionary new];
                 for (int i = 0; i < friendsStatus.count; i++) {
                     friendsDetial = friendsStatus[i];
-                    if ([friendsDetial[@"friendName"] isEqualToString:@"陳威宇"]) {
+                    // don't show myself annotation
+                    if ([friendsDetial[@"friendName"] isEqualToString:userName]) {
                         //if location belong to me don't do anything
                     } else {
                         double lat = [friendsDetial[@"lat"] doubleValue];
@@ -65,7 +65,16 @@
                         //MapView add annotation
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [mainMapView addAnnotation:annotation];
-                            
+                            for (id annotation in mainMapView.annotations) {
+                                if (annotation != mainMapView.userLocation) {
+                                    if (![showOrHideAnnotation  isEqual: @"1"]) {
+                                        [[mainMapView viewForAnnotation:annotation] setHidden:YES];
+                                    }
+                                }
+                            }
+                            //                            if (![showOrHideAnnotation  isEqual: @"1"]) {
+                            //                                [[mainMapView viewForAnnotation:annotation] setHidden:YES];
+                            //                            }
                         });
                     }
                 }

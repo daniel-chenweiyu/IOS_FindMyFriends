@@ -11,6 +11,6 @@
 
 @interface postAndGetLocation : NSObject
 //-(void)startUpdateAndGetWithCLLocation:(CLLocation*) currentLocation CLLocationCoordinate2D:(CLLocationCoordinate2D) coordinate;
--(void)updateMyLocation:(CLLocationCoordinate2D) coordinate;
--(void)getFriendsLocation:(MKMapView*) mainMapView;
+-(void)updateMyLocation:(CLLocationCoordinate2D) coordinate userName:(NSString*) userName;
+-(void)getFriendsLocation:(MKMapView*) mainMapView userName:(NSString*) userName showOrHideAnnotation:(NSString*) showOrHideAnnotation;
 @end
