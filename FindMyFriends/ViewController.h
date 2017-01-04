@@ -13,6 +13,8 @@
 #import "CoreDataManager.h"
 #import "postAndGetLocation.h"
 #import "CoreDataAction.h"
+#import "FriendsViewController.h"
+#import "showLocation.h"
 
 @interface ViewController : UIViewController
 -(void)userDefaultsSetting;

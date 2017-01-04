@@ -6,8 +6,9 @@
 //  Copyright © 2017年 Daniel. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "ViewController.h"
 
-@interface FriendsViewController : ViewController
-
+@interface FriendsViewController : UIViewController
+@property MKMapView *mainMapView;
 @end

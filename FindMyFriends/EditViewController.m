@@ -30,6 +30,7 @@
     [super viewDidLoad];
     [self thisAppEditSetting];
 }
+
 - (void) thisAppEditSetting {
     
     userDefaults = [NSUserDefaults standardUserDefaults];
@@ -47,10 +48,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (IBAction)backBtn:(UIBarButtonItem *)sender {
     
     [self dismissViewControllerAnimated:true completion:nil];
 }
+
 - (IBAction)saveEditBtn:(UIBarButtonItem *)sender {
     
     thisAppEdit[0] = [NSString stringWithFormat:@"%@",self.userNameTextField.text];
@@ -63,11 +66,17 @@
     [self showOrHideAnnotationWithMapView:nil];
     // set alert to show save success
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"訊息" message:@"儲存成功" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction * ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction * ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // refresh mainMapView Annotation
+        postAndGetLocation * postAndGetClass = [postAndGetLocation new];
+        [postAndGetClass getFriendsLocation:_mainMapView userName:thisAppEdit[0] showOrHideAnnotation:thisAppEdit[4]];
+    }];
     [alert addAction:ok];
     [self presentViewController:alert animated:true completion:nil];
 }
+
 - (void)showOrHideAnnotationWithMapView:(MKMapView*)mainMapView {
+    
     // check for other controller use thie method
     if (thisAppEdit[4] == nil) {
         [self thisAppEditSetting];
@@ -75,12 +84,12 @@
     }
     for (id annotation in self.mainMapView.annotations) {
         if (annotation != self.mainMapView.userLocation) {
-        if ([thisAppEdit[4]  isEqual: @"1"]) {
-            [[self.mainMapView viewForAnnotation:annotation] setHidden:NO];
-        } else {
-            [[self.mainMapView viewForAnnotation:annotation] setHidden:YES];
+            if ([thisAppEdit[4]  isEqual: @"1"]) {
+                [[self.mainMapView viewForAnnotation:annotation] setHidden:NO];
+            } else {
+                [[self.mainMapView viewForAnnotation:annotation] setHidden:YES];
+            }
         }
-    }
     }
 }
 - (IBAction)frequencyChange:(UISlider *)sender {

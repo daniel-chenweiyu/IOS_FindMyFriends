@@ -20,10 +20,17 @@
     BOOL recordTarget;
     NSUserDefaults * userDefaults;
     NSMutableArray * thisAppEdit;
+    CoreDataManager * dataManager;
+    CoreDataAction * coreDataAction;
+    MKPolyline * polyline;
+    MKPolylineView * lineView;
+    NSMutableArray * coordinateArray;
+    int count;
 }
 @property (weak, nonatomic) IBOutlet MKMapView *mainMapView;
 @property (weak, nonatomic) IBOutlet UIButton *userTrackingModeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *startAndStopRecordBtn;
+@property (weak, nonatomic) IBOutlet UILabel *barLabel;
 
 
 @end
@@ -40,14 +47,18 @@
     postGetLocation = [postAndGetLocation new];
     //set locationManager
     [self locationManagerSetting];
+    //set coreData
+    coreDataAction = [CoreDataAction new];
+    //set drowLineArray
+    coordinateArray = [NSMutableArray new];
 }
 
--(void)viewDidAppear:(BOOL)animated{
-    //start update my loaction to server and get friends location from server
+-(void)viewDidAppear:(BOOL)animated {
+    // start update my loaction to server and get friends location from server
     timer = [NSTimer scheduledTimerWithTimeInterval:[thisAppEdit[3] intValue] target:self selector:@selector(startUpdateAndGet) userInfo:nil repeats:YES];
 }
 
--(void)viewDidDisappear:(BOOL)animated{
+-(void)viewDidDisappear:(BOOL)animated {
     [timer invalidate];
     timer = nil;
 }
@@ -113,32 +124,69 @@
     if (recordTarget == false) {
         [_startAndStopRecordBtn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
         recordTarget = true;
+        self.barLabel.text = @"紀錄中";
+//        dataManager = [coreDataAction coreDataManagerSettingWithEntityName:@"Event"];
+        
+        
     }else{
         [_startAndStopRecordBtn setImage:[UIImage imageNamed:@"run"] forState:UIControlStateNormal];
         recordTarget = false;
+        self.barLabel.text = @"記錄完成";
     }
 }
 
 #pragma mark - CLLocationManagerDelegate Methods
--(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
     currentLocation = locations.lastObject;
     coordinate = currentLocation.coordinate;
+    if (recordTarget) {
+        coordinateArray[count] = currentLocation;
+        [self drawLine];
+        count++;
+    } else {
+        count = 0;
+        coordinateArray = [NSMutableArray new];
+    }
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [self showMyLocation];
+        showLocation * showMyLocation = [showLocation new];
+        [showMyLocation showLocationWithCLLocationCoordinate2D:coordinate mapView:_mainMapView];
         //do first startUpdateAndGet
         [self startUpdateAndGet];
-        //        timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(startUpdateAndGet) userInfo:nil repeats:YES];
     });
 }
 
--(void)showMyLocation{
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.01, 0.01);
-    MKCoordinateRegion region = MKCoordinateRegionMake(coordinate, span);
-    [_mainMapView setRegion:region animated:true];
+- (void)drawLine {
+    
+    // remove polyline if one exists
+    if (polyline != nil) {
+            [self.mainMapView removeOverlay:polyline];
+    }
+    
+    // create an array of coordinates from allPins
+    CLLocationCoordinate2D coordinates[coordinateArray.count];
+    CLLocation * location;
+    for (int i = 0; i < coordinateArray.count; i++) {
+        location = coordinateArray[i];
+        coordinates[i] = location.coordinate;
+    }
+    // create a polyline with all cooridnates
+    MKPolyline * newPolyline = [MKPolyline polylineWithCoordinates:coordinates count:coordinateArray.count];
+    [self.mainMapView addOverlay:newPolyline];
+    polyline = newPolyline;
+    
+    // create an MKPolylineView and add it to the map view
+    lineView = [[MKPolylineView alloc] initWithPolyline:polyline];
+    lineView.strokeColor = [UIColor redColor];
+    lineView.lineWidth = 5;
 }
 
--(void)startUpdateAndGet{
+- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
+    
+    return lineView;
+}
+
+- (void)startUpdateAndGet {
     [self userDefaultsSetting];
     if (currentLocation != nil) {
         if ([thisAppEdit[1]  isEqual: @"1"]) {
@@ -150,9 +198,18 @@
     }
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    EditViewController * editViewController = segue.destinationViewController;
+- (IBAction)goToEditView:(UIButton *)sender {
+    
+    EditViewController * editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"EditViewController"];
     editViewController.mainMapView = _mainMapView;
+    [self showViewController:editViewController sender:self];
+}
+
+- (IBAction)goToFriednsView:(UIButton *)sender {
+    
+    FriendsViewController * editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendsViewController"];
+    editViewController.mainMapView = _mainMapView;
+    [self showViewController:editViewController sender:self];
 }
 
 - (void)didReceiveMemoryWarning {
