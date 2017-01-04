@@ -26,7 +26,12 @@
 @implementation EditViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    [self thisAppEditSetting];
+}
+- (void) thisAppEditSetting {
+    
     userDefaults = [NSUserDefaults standardUserDefaults];
     thisAppEdit = [NSMutableArray arrayWithArray:[userDefaults objectForKey:@"findMyFriendsEdit"]];
     self.userNameTextField.text = thisAppEdit[0];
@@ -35,19 +40,19 @@
     self.secLabel.text = thisAppEdit[3];
     self.frequencySetSlider.value = [thisAppEdit[3] floatValue];
     [self.showFriendsLocationSwitch setOn:[thisAppEdit[4] boolValue]];
-    
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)backBtn:(UIBarButtonItem *)sender {
+    
     [self dismissViewControllerAnimated:true completion:nil];
 }
 - (IBAction)saveEditBtn:(UIBarButtonItem *)sender {
+    
     thisAppEdit[0] = [NSString stringWithFormat:@"%@",self.userNameTextField.text];
     thisAppEdit[1] = [NSString stringWithFormat:@"%d",self.updateSwitch.on];
     thisAppEdit[2] = [NSString stringWithFormat:@"%d",self.downloadSwitch.on];
@@ -55,14 +60,19 @@
     thisAppEdit[4] = [NSString stringWithFormat:@"%d",self.showFriendsLocationSwitch.on];
     [userDefaults setObject:thisAppEdit forKey:@"findMyFriendsEdit"];
     [userDefaults synchronize];
-    [self showOrHideAnnotation];
+    [self showOrHideAnnotationWithMapView:nil];
     // set alert to show save success
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"訊息" message:@"儲存成功" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alert addAction:ok];
     [self presentViewController:alert animated:true completion:nil];
 }
-- (void) showOrHideAnnotation {
+- (void)showOrHideAnnotationWithMapView:(MKMapView*)mainMapView {
+    // check for other controller use thie method
+    if (thisAppEdit[4] == nil) {
+        [self thisAppEditSetting];
+        self.mainMapView = mainMapView;
+    }
     for (id annotation in self.mainMapView.annotations) {
         if (annotation != self.mainMapView.userLocation) {
         if ([thisAppEdit[4]  isEqual: @"1"]) {
@@ -74,6 +84,7 @@
     }
 }
 - (IBAction)frequencyChange:(UISlider *)sender {
+    
     self.secLabel.text = [NSString  stringWithFormat:@"%0.0f",self.frequencySetSlider.value];
 }
 

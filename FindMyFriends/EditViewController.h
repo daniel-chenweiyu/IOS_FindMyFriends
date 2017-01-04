@@ -11,4 +11,5 @@
 
 @interface EditViewController : UIViewController
 @property MKMapView *mainMapView;
+- (void)showOrHideAnnotationWithMapView:(MKMapView*)mainMapView ;
 @end

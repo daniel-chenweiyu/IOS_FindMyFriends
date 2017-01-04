@@ -7,8 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "postAndGetLocation.h"
-#import "EditViewController.h"
+
+
 
 @interface ViewController ()<CLLocationManagerDelegate,MKMapViewDelegate> {
     CLLocationManager * locationManager;
@@ -18,12 +18,13 @@
     postAndGetLocation * postGetLocation ;
     NSInteger targetIndex;
     BOOL recordTarget;
+    NSUserDefaults * userDefaults;
     NSMutableArray * thisAppEdit;
 }
 @property (weak, nonatomic) IBOutlet MKMapView *mainMapView;
 @property (weak, nonatomic) IBOutlet UIButton *userTrackingModeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *startAndStopRecordBtn;
-@property NSUserDefaults * userDefaults;
+
 
 @end
 
@@ -32,31 +33,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //set userDefault
-    self.userDefaults = [NSUserDefaults standardUserDefaults];
     [self userDefaultsSetting];
     //set userTrackingModeChange begin MKUserTrackingModeNone
     targetIndex = 0 ;
     recordTarget = false;
     postGetLocation = [postAndGetLocation new];
     //set locationManager
-    locationManager = [CLLocationManager new];
+    [self locationManagerSetting];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    //start update my loaction to server and get friends location from server
+    timer = [NSTimer scheduledTimerWithTimeInterval:[thisAppEdit[3] intValue] target:self selector:@selector(startUpdateAndGet) userInfo:nil repeats:YES];
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [timer invalidate];
+    timer = nil;
+}
+
+-(void)locationManagerSetting {
+    if (locationManager == nil) {
+        locationManager = [CLLocationManager new];
+    }
     [locationManager requestWhenInUseAuthorization];
     locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     locationManager.activityType = kCLLocationAccuracyBestForNavigation;
     locationManager.delegate = self;
     [locationManager startUpdatingLocation];
 }
--(void)viewDidAppear:(BOOL)animated{
-    //start update my loaction to server and get friends location from server
-    timer = [NSTimer scheduledTimerWithTimeInterval:[thisAppEdit[3] intValue] target:self selector:@selector(startUpdateAndGet) userInfo:nil repeats:YES];
-}
--(void)viewDidDisappear:(BOOL)animated{
-    [timer invalidate];
-    timer = nil;
-}
 
 -(void)userDefaultsSetting {
-    NSArray * data = [self.userDefaults objectForKey:@"findMyFriendsEdit"];
+    if (userDefaults == nil) {
+        userDefaults = [NSUserDefaults standardUserDefaults];
+    }
+    NSArray * data = [userDefaults objectForKey:@"findMyFriendsEdit"];
     if (data != nil) {
         thisAppEdit = [NSMutableArray arrayWithArray:data];
     }else{
@@ -71,25 +82,11 @@
         thisAppEdit[3] = @"60";
         //hidding friends annotation
         thisAppEdit[4] = @"1";
-        [self.userDefaults setObject:thisAppEdit forKey:@"findMyFriendsEdit"];
-        [self.userDefaults synchronize];
-    }
-    
-}
-- (IBAction)mapTypeChange:(UISegmentedControl *)sender {
-    NSInteger mapTypetargetIndex = [sender selectedSegmentIndex];
-    switch (mapTypetargetIndex) {
-        case 0:
-            _mainMapView.mapType = MKMapTypeStandard;
-            break;
-        case 1 :
-            _mainMapView.mapType = MKMapTypeSatellite;
-            break;
-        case 2:
-            _mainMapView.mapType = MKMapTypeHybrid;
-            break;
+        [userDefaults setObject:thisAppEdit forKey:@"findMyFriendsEdit"];
+        [userDefaults synchronize];
     }
 }
+
 - (IBAction)userTrackingModeChangedBtn:(UIButton *)sender {
     //defaul targetIndex = 0 so first press should be 1
     targetIndex++ ;
@@ -111,6 +108,7 @@
             break;
     }
 }
+
 - (IBAction)recordBtn:(UIButton *)sender {
     if (recordTarget == false) {
         [_startAndStopRecordBtn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
@@ -130,8 +128,7 @@
         [self showMyLocation];
         //do first startUpdateAndGet
         [self startUpdateAndGet];
-        //start update my loaction to server and get friends location from server
-//        timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(startUpdateAndGet) userInfo:nil repeats:YES];
+        //        timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(startUpdateAndGet) userInfo:nil repeats:YES];
     });
 }
 
@@ -140,6 +137,7 @@
     MKCoordinateRegion region = MKCoordinateRegionMake(coordinate, span);
     [_mainMapView setRegion:region animated:true];
 }
+
 -(void)startUpdateAndGet{
     [self userDefaultsSetting];
     if (currentLocation != nil) {

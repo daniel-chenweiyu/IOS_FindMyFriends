@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
+#import "EditViewController.h"
+#import "CoreDataManager.h"
+#import "postAndGetLocation.h"
+#import "CoreDataAction.h"
 
 @interface ViewController : UIViewController
 -(void)userDefaultsSetting;
