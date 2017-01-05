@@ -40,7 +40,11 @@
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     Event * item = (Event*)[dataManagerForEvent getByIndex:indexPath.row];
     cell.textLabel.text = item.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",item.endTime];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSDate * date = [dateFormatter stringFromDate:item.endTime];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",date];
     return cell;
 }
 

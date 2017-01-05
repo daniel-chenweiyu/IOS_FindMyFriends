@@ -16,7 +16,7 @@
     CLLocationCoordinate2D coordinate;
     NSTimer * timer;
     postAndGetLocation * postGetLocation ;
-    NSInteger targetIndex;
+    int targetIndex;
     BOOL recordTarget;
     NSUserDefaults * userDefaults;
     NSMutableArray * thisAppEdit;
@@ -104,12 +104,18 @@
 }
 
 - (IBAction)userTrackingModeChangedBtn:(UIButton *)sender {
+    
     //defaul targetIndex = 0 so first press should be 1
-    targetIndex++ ;
+    targetIndex++;
     if (targetIndex >= 3) {
         targetIndex = 0;
     }
-    switch (targetIndex) {
+    [self userTrackingModeChangedWithTargetIndex:targetIndex];
+}
+
+- (void)userTrackingModeChangedWithTargetIndex:(int)targetNumber {
+    
+    switch (targetNumber) {
         case 0:
             _mainMapView.userTrackingMode = MKUserTrackingModeNone;
             [_userTrackingModeBtn setImage:[UIImage imageNamed:@"normal"] forState:UIControlStateNormal];
@@ -127,6 +133,7 @@
 
 - (IBAction)recordBtn:(UIButton *)sender {
     if (recordTarget == false) {
+        [self userTrackingModeChangedWithTargetIndex:1];
         [_startAndStopRecordBtn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
         recordTarget = true;
         self.barLabel.text = @"紀錄中";
@@ -197,6 +204,13 @@
     return lineView;
 }
 
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+    
+
+//    _mainMapView.userTrackingMode = MKUserTrackingModeNone;
+//    [_userTrackingModeBtn setImage:[UIImage imageNamed:@"normal"] forState:UIControlStateNormal];
+//    targetIndex = 0;
+}
 - (void)startUpdateAndGet {
     [self userDefaultsSetting];
     if (currentLocation != nil) {
@@ -208,12 +222,13 @@
         }
     }
 }
-
+#pragma mark - goTo other Pages
 - (IBAction)goToEditView:(UIButton *)sender {
     
     if (recordTarget) {
         [self alertWithIsHideBool:nil];
     } else {
+        [self userTrackingModeChangedWithTargetIndex:0];
         EditViewController * editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"EditViewController"];
         editViewController.mainMapView = _mainMapView;
         [self showViewController:editViewController sender:self];
@@ -229,6 +244,7 @@
         if ([thisAppEdit[4] isEqualToString:@"0"]) {
             [self alertWithIsHideBool:true];
         } else{
+            [self userTrackingModeChangedWithTargetIndex:0];
             FriendsViewController * editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendsViewController"];
             editViewController.mainMapView = _mainMapView;
             [self showViewController:editViewController sender:self];
@@ -241,6 +257,7 @@
     if (recordTarget) {
         [self alertWithIsHideBool:nil];
     } else {
+        [self userTrackingModeChangedWithTargetIndex:0];
         HistoryRecordViewController * historyRecordViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"HistoryRecordViewController"];
         historyRecordViewController.mainMapView = _mainMapView;
         [self showViewController:historyRecordViewController sender:self];
