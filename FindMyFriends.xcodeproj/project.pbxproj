@@ -74,6 +74,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6564B57C1E1E4B1E00EA3E3E /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				659390EB1E1C8D3600BD6051 /* CoreDataAction.h */,
+				659390EC1E1C8D3600BD6051 /* CoreDataAction.m */,
+				659390E01E1B6E4B00BD6051 /* CoreDataManager.h */,
+				659390E11E1B6E4B00BD6051 /* CoreDataManager.m */,
+				659390F91E1E1F0E00BD6051 /* CoreDataManagerForEvent.h */,
+				659390FA1E1E1F0E00BD6051 /* CoreDataManagerForEvent.m */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		6564B57D1E1E4B5900EA3E3E /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				65B7C1A91E092DD50049498E /* ViewController.h */,
+				65B7C1AA1E092DD50049498E /* ViewController.m */,
+				652C9EB71E111C6400BD9FC0 /* EditViewController.h */,
+				652C9EB81E111C6400BD9FC0 /* EditViewController.m */,
+				659390E81E1BA2AB00BD6051 /* FriendsViewController.h */,
+				659390E91E1BA2AB00BD6051 /* FriendsViewController.m */,
+				659390F31E1D341C00BD6051 /* HistoryRecordViewController.h */,
+				659390F41E1D341C00BD6051 /* HistoryRecordViewController.m */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		6564B57E1E1E4B8D00EA3E3E /* MethodClass */ = {
+			isa = PBXGroup;
+			children = (
+				659390F61E1DDBE900BD6051 /* MapViewAction.h */,
+				659390F71E1DDBE900BD6051 /* MapViewAction.m */,
+				65B7C1C21E0A39B50049498E /* postAndGetLocation.h */,
+				65B7C1C31E0A39B50049498E /* postAndGetLocation.m */,
+			);
+			name = MethodClass;
+			sourceTree = "<group>";
+		};
 		65B7C1971E092DD50049498E = {
 			isa = PBXGroup;
 			children = (
@@ -96,26 +135,11 @@
 			children = (
 				65B7C1A61E092DD50049498E /* AppDelegate.h */,
 				65B7C1A71E092DD50049498E /* AppDelegate.m */,
-				65B7C1A91E092DD50049498E /* ViewController.h */,
-				65B7C1AA1E092DD50049498E /* ViewController.m */,
-				659390F61E1DDBE900BD6051 /* MapViewAction.h */,
-				659390F71E1DDBE900BD6051 /* MapViewAction.m */,
-				65B7C1C21E0A39B50049498E /* postAndGetLocation.h */,
-				65B7C1C31E0A39B50049498E /* postAndGetLocation.m */,
+				6564B57D1E1E4B5900EA3E3E /* ViewController */,
+				6564B57E1E1E4B8D00EA3E3E /* MethodClass */,
+				6564B57C1E1E4B1E00EA3E3E /* CoreData */,
 				659390EE1E1D01F600BD6051 /* Main.storyboard */,
-				659390EB1E1C8D3600BD6051 /* CoreDataAction.h */,
-				659390EC1E1C8D3600BD6051 /* CoreDataAction.m */,
-				659390E81E1BA2AB00BD6051 /* FriendsViewController.h */,
-				659390E91E1BA2AB00BD6051 /* FriendsViewController.m */,
-				659390F31E1D341C00BD6051 /* HistoryRecordViewController.h */,
-				659390F41E1D341C00BD6051 /* HistoryRecordViewController.m */,
-				652C9EB71E111C6400BD9FC0 /* EditViewController.h */,
-				652C9EB81E111C6400BD9FC0 /* EditViewController.m */,
 				659390E31E1B6FF800BD6051 /* FindMyFriends.xcdatamodeld */,
-				659390E01E1B6E4B00BD6051 /* CoreDataManager.h */,
-				659390E11E1B6E4B00BD6051 /* CoreDataManager.m */,
-				659390F91E1E1F0E00BD6051 /* CoreDataManagerForEvent.h */,
-				659390FA1E1E1F0E00BD6051 /* CoreDataManagerForEvent.m */,
 				65B7C1B11E092DD50049498E /* LaunchScreen.storyboard */,
 				65B7C1B41E092DD50049498E /* Info.plist */,
 				652C9EBA1E1249BD00BD9FC0 /* Assets.xcassets */,

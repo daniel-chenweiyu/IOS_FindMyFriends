@@ -44,6 +44,21 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        NSManagedObject *item = [dataManagerForEvent getByIndex:indexPath.row];
+        [dataManagerForEvent deleteItem:item];
+        [dataManagerForEvent saveContextWithCompletion:^(BOOL success) {
+            //對tableView做新增刪除的動作記得先update tableView
+            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [self dismissViewControllerAnimated:true completion:nil];

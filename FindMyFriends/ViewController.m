@@ -160,7 +160,9 @@
         NSString * entityName = @"Event";
         CoreDataManagerForEvent * dataManagerForEvent = [coreDataAction coreDataManagerForEventSettingWithEntityName:entityName];
         [coreDataAction editWithDefault:nil dataDictionary:eventDictionary entityName:entityName completion:^(bool success, NSManagedObject *result) {
-            [dataManagerForEvent saveContextWithCompletion:nil];
+            if (success) {
+                [dataManagerForEvent saveContextWithCompletion:nil];
+            }
         }];
     }
 }
@@ -209,23 +211,53 @@
 
 - (IBAction)goToEditView:(UIButton *)sender {
     
-    EditViewController * editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"EditViewController"];
-    editViewController.mainMapView = _mainMapView;
-    [self showViewController:editViewController sender:self];
+    if (recordTarget) {
+        [self alertWithIsHideBool:nil];
+    } else {
+        EditViewController * editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"EditViewController"];
+        editViewController.mainMapView = _mainMapView;
+        [self showViewController:editViewController sender:self];
+    }
 }
 
 - (IBAction)goToFriednsView:(UIButton *)sender {
     
-    FriendsViewController * editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendsViewController"];
-    editViewController.mainMapView = _mainMapView;
-    [self showViewController:editViewController sender:self];
+    if (recordTarget) {
+        [self alertWithIsHideBool:nil];
+    } else {
+        [self userDefaultsSetting];
+        if ([thisAppEdit[4] isEqualToString:@"0"]) {
+            [self alertWithIsHideBool:true];
+        } else{
+            FriendsViewController * editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendsViewController"];
+            editViewController.mainMapView = _mainMapView;
+            [self showViewController:editViewController sender:self];
+        }
+    }
 }
 
 - (IBAction)goToHistoryRecordView:(UIButton *)sender {
     
-    HistoryRecordViewController * historyRecordViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"HistoryRecordViewController"];
-    historyRecordViewController.mainMapView = _mainMapView;
-    [self showViewController:historyRecordViewController sender:self];
+    if (recordTarget) {
+        [self alertWithIsHideBool:nil];
+    } else {
+        HistoryRecordViewController * historyRecordViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"HistoryRecordViewController"];
+        historyRecordViewController.mainMapView = _mainMapView;
+        [self showViewController:historyRecordViewController sender:self];
+    }
+}
+
+- (void) alertWithIsHideBool:(BOOL)isHide {
+    NSString * message;
+    if (isHide) {
+        message = @"隱藏朋友位置時無法使用此功能";
+    } else {
+        message = @"紀錄時無法此用此功能";
+    }
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"訊息" message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:ok];
+    [self presentViewController:alert animated:true completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
