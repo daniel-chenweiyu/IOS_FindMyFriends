@@ -14,7 +14,9 @@
 #import "postAndGetLocation.h"
 #import "CoreDataAction.h"
 #import "FriendsViewController.h"
-#import "showLocation.h"
+#import "MapViewAction.h"
+#import "HistoryRecordViewController.h"
+#import "CoreDataManagerForEvent.h"
 
 @interface ViewController : UIViewController
 -(void)userDefaultsSetting;

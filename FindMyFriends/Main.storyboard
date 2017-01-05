@@ -54,6 +54,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vwO-q8-D7p">
                                 <rect key="frame" x="42" y="34" width="30" height="30"/>
                                 <state key="normal" image="menu"/>
+                                <connections>
+                                    <action selector="goToHistoryRecordView:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wxH-A6-GSw"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7mF-ED-BCC">
                                 <rect key="frame" x="314" y="34" width="30" height="30"/>
@@ -276,7 +279,7 @@
         <!--History Record View Controller-->
         <scene sceneID="xbF-6P-HV3">
             <objects>
-                <viewController id="wlw-r7-BJi" customClass="HistoryRecordViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HistoryRecordViewController" id="wlw-r7-BJi" customClass="HistoryRecordViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="7AO-T7-AU4"/>
                         <viewControllerLayoutGuide type="bottom" id="1s1-ex-ViD"/>
@@ -289,7 +292,11 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
                                     <navigationItem title="歷史記錄" id="FKf-Or-37Q">
-                                        <barButtonItem key="leftBarButtonItem" image="back" id="ORj-EV-8Np"/>
+                                        <barButtonItem key="leftBarButtonItem" image="back" id="ORj-EV-8Np">
+                                            <connections>
+                                                <action selector="backBtn:" destination="wlw-r7-BJi" id="EFO-SE-3Se"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>

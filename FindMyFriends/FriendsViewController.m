@@ -9,7 +9,7 @@
 #import "FriendsViewController.h"
 #import "Friends+CoreDataClass.h"
 
-@interface FriendsViewController ()<UITableViewDelegate, UITableViewDataSource> {
+@interface FriendsViewController () <UITableViewDelegate, UITableViewDataSource> {
     CoreDataManager * dataManager;
     NSUserDefaults * userDefaults;
     NSArray * thisAppEdit;
@@ -66,7 +66,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     [self dismissViewControllerAnimated:true completion:nil];
-    showLocation * showFriendsLocation = [showLocation new];
+    MapViewAction * showFriendsLocation = [MapViewAction new];
     CLLocationCoordinate2D coordinate;
     Friends * item = (Friends*)[dataManager getByIndex:indexPath.row];
     coordinate.latitude = [item.lat floatValue];

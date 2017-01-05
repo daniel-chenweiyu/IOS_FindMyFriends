@@ -22,8 +22,9 @@
     NSMutableArray * thisAppEdit;
     CoreDataManager * dataManager;
     CoreDataAction * coreDataAction;
-    MKPolyline * polyline;
+    MapViewAction * mapViewAction;
     MKPolylineView * lineView;
+    NSMutableDictionary * eventDictionary;
     NSMutableArray * coordinateArray;
     int count;
 }
@@ -50,6 +51,7 @@
     //set coreData
     coreDataAction = [CoreDataAction new];
     //set drowLineArray
+    mapViewAction = [MapViewAction new];
     coordinateArray = [NSMutableArray new];
 }
 
@@ -95,6 +97,9 @@
         thisAppEdit[4] = @"1";
         [userDefaults setObject:thisAppEdit forKey:@"findMyFriendsEdit"];
         [userDefaults synchronize];
+        NSNumber * eventId = @(0);
+        [userDefaults setObject:eventId forKey:@"eventId"];
+        [userDefaults synchronize];
     }
 }
 
@@ -125,13 +130,38 @@
         [_startAndStopRecordBtn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
         recordTarget = true;
         self.barLabel.text = @"紀錄中";
-//        dataManager = [coreDataAction coreDataManagerSettingWithEntityName:@"Event"];
-        
-        
+        //add new eventDictionary
+        eventDictionary = [NSMutableDictionary new];
+        eventDictionary[@"startTime"] = [NSDate date];
     }else{
         [_startAndStopRecordBtn setImage:[UIImage imageNamed:@"run"] forState:UIControlStateNormal];
         recordTarget = false;
         self.barLabel.text = @"記錄完成";
+        // take eventId from userDefaults
+        NSNumber * eventId = [userDefaults objectForKey:@"eventId"];
+        eventDictionary[@"id"] = eventId;
+        eventDictionary[@"userName"] = thisAppEdit[0];
+        eventDictionary[@"title"] = [NSString stringWithFormat:@"軌跡記錄(%@)",eventId];
+        eventDictionary[@"descripe"] = @"";
+        eventDictionary[@"endTime"] = [NSDate date];
+        eventDictionary[@"locations"] = coordinateArray;
+        CLLocationDistance distanceInMeters;
+        for (int i = 0 ; i < coordinateArray.count - 1; i++) {
+            distanceInMeters += [coordinateArray[i] distanceFromLocation:coordinateArray[i + 1]];
+        }
+        NSNumber * totalMile = [NSNumber numberWithDouble:distanceInMeters];
+        eventDictionary[@"totalMile"] = totalMile;
+        NSTimeInterval sec = [eventDictionary[@"endTime"] timeIntervalSinceDate:eventDictionary[@"startTime"]];
+        NSNumber * timeSpan = [NSNumber numberWithInt:sec];
+        eventDictionary[@"spanTime"] = timeSpan;
+        eventId = [NSNumber numberWithInt:([eventId intValue] + 1)];
+        [userDefaults setObject:eventId forKey:@"eventId"];
+        [userDefaults synchronize];
+        NSString * entityName = @"Event";
+        CoreDataManagerForEvent * dataManagerForEvent = [coreDataAction coreDataManagerForEventSettingWithEntityName:entityName];
+        [coreDataAction editWithDefault:nil dataDictionary:eventDictionary entityName:entityName completion:^(bool success, NSManagedObject *result) {
+            [dataManagerForEvent saveContextWithCompletion:nil];
+        }];
     }
 }
 
@@ -141,7 +171,7 @@
     coordinate = currentLocation.coordinate;
     if (recordTarget) {
         coordinateArray[count] = currentLocation;
-        [self drawLine];
+        [mapViewAction drawLineWithArray:coordinateArray mapView:self.mainMapView];
         count++;
     } else {
         count = 0;
@@ -149,40 +179,19 @@
     }
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        showLocation * showMyLocation = [showLocation new];
+        MapViewAction * showMyLocation = [MapViewAction new];
         [showMyLocation showLocationWithCLLocationCoordinate2D:coordinate mapView:_mainMapView];
         //do first startUpdateAndGet
         [self startUpdateAndGet];
     });
 }
 
-- (void)drawLine {
-    
-    // remove polyline if one exists
-    if (polyline != nil) {
-            [self.mainMapView removeOverlay:polyline];
-    }
-    
-    // create an array of coordinates from allPins
-    CLLocationCoordinate2D coordinates[coordinateArray.count];
-    CLLocation * location;
-    for (int i = 0; i < coordinateArray.count; i++) {
-        location = coordinateArray[i];
-        coordinates[i] = location.coordinate;
-    }
-    // create a polyline with all cooridnates
-    MKPolyline * newPolyline = [MKPolyline polylineWithCoordinates:coordinates count:coordinateArray.count];
-    [self.mainMapView addOverlay:newPolyline];
-    polyline = newPolyline;
-    
-    // create an MKPolylineView and add it to the map view
-    lineView = [[MKPolylineView alloc] initWithPolyline:polyline];
-    lineView.strokeColor = [UIColor redColor];
-    lineView.lineWidth = 5;
-}
 
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay {
     
+    lineView = [[MKPolylineView alloc] initWithPolyline:overlay];
+    lineView.strokeColor = [UIColor redColor];
+    lineView.lineWidth = 5;
     return lineView;
 }
 
@@ -210,6 +219,13 @@
     FriendsViewController * editViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FriendsViewController"];
     editViewController.mainMapView = _mainMapView;
     [self showViewController:editViewController sender:self];
+}
+
+- (IBAction)goToHistoryRecordView:(UIButton *)sender {
+    
+    HistoryRecordViewController * historyRecordViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"HistoryRecordViewController"];
+    historyRecordViewController.mainMapView = _mainMapView;
+    [self showViewController:historyRecordViewController sender:self];
 }
 
 - (void)didReceiveMemoryWarning {

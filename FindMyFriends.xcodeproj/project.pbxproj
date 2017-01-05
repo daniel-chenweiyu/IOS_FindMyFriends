@@ -15,8 +15,9 @@
 		659390EA1E1BA2AB00BD6051 /* FriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 659390E91E1BA2AB00BD6051 /* FriendsViewController.m */; };
 		659390ED1E1C8D3600BD6051 /* CoreDataAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 659390EC1E1C8D3600BD6051 /* CoreDataAction.m */; };
 		659390EF1E1D01F600BD6051 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 659390EE1E1D01F600BD6051 /* Main.storyboard */; };
-		659390F21E1D0C0400BD6051 /* showLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 659390F11E1D0C0400BD6051 /* showLocation.m */; };
 		659390F51E1D341C00BD6051 /* HistoryRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 659390F41E1D341C00BD6051 /* HistoryRecordViewController.m */; };
+		659390F81E1DDBE900BD6051 /* MapViewAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 659390F71E1DDBE900BD6051 /* MapViewAction.m */; };
+		659390FB1E1E1F0E00BD6051 /* CoreDataManagerForEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 659390FA1E1E1F0E00BD6051 /* CoreDataManagerForEvent.m */; };
 		65B7C1A51E092DD50049498E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B7C1A41E092DD50049498E /* main.m */; };
 		65B7C1A81E092DD50049498E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B7C1A71E092DD50049498E /* AppDelegate.m */; };
 		65B7C1AB1E092DD50049498E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B7C1AA1E092DD50049498E /* ViewController.m */; };
@@ -39,10 +40,12 @@
 		659390EB1E1C8D3600BD6051 /* CoreDataAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataAction.h; sourceTree = "<group>"; };
 		659390EC1E1C8D3600BD6051 /* CoreDataAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataAction.m; sourceTree = "<group>"; };
 		659390EE1E1D01F600BD6051 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		659390F01E1D0C0400BD6051 /* showLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = showLocation.h; sourceTree = "<group>"; };
-		659390F11E1D0C0400BD6051 /* showLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = showLocation.m; sourceTree = "<group>"; };
 		659390F31E1D341C00BD6051 /* HistoryRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryRecordViewController.h; sourceTree = "<group>"; };
 		659390F41E1D341C00BD6051 /* HistoryRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryRecordViewController.m; sourceTree = "<group>"; };
+		659390F61E1DDBE900BD6051 /* MapViewAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewAction.h; sourceTree = "<group>"; };
+		659390F71E1DDBE900BD6051 /* MapViewAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewAction.m; sourceTree = "<group>"; };
+		659390F91E1E1F0E00BD6051 /* CoreDataManagerForEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManagerForEvent.h; sourceTree = "<group>"; };
+		659390FA1E1E1F0E00BD6051 /* CoreDataManagerForEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManagerForEvent.m; sourceTree = "<group>"; };
 		65B7C1A01E092DD50049498E /* FindMyFriends.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FindMyFriends.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65B7C1A41E092DD50049498E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		65B7C1A61E092DD50049498E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -95,22 +98,24 @@
 				65B7C1A71E092DD50049498E /* AppDelegate.m */,
 				65B7C1A91E092DD50049498E /* ViewController.h */,
 				65B7C1AA1E092DD50049498E /* ViewController.m */,
-				659390F01E1D0C0400BD6051 /* showLocation.h */,
-				659390F11E1D0C0400BD6051 /* showLocation.m */,
+				659390F61E1DDBE900BD6051 /* MapViewAction.h */,
+				659390F71E1DDBE900BD6051 /* MapViewAction.m */,
 				65B7C1C21E0A39B50049498E /* postAndGetLocation.h */,
 				65B7C1C31E0A39B50049498E /* postAndGetLocation.m */,
 				659390EE1E1D01F600BD6051 /* Main.storyboard */,
 				659390EB1E1C8D3600BD6051 /* CoreDataAction.h */,
 				659390EC1E1C8D3600BD6051 /* CoreDataAction.m */,
 				659390E81E1BA2AB00BD6051 /* FriendsViewController.h */,
+				659390E91E1BA2AB00BD6051 /* FriendsViewController.m */,
 				659390F31E1D341C00BD6051 /* HistoryRecordViewController.h */,
 				659390F41E1D341C00BD6051 /* HistoryRecordViewController.m */,
-				659390E91E1BA2AB00BD6051 /* FriendsViewController.m */,
 				652C9EB71E111C6400BD9FC0 /* EditViewController.h */,
 				652C9EB81E111C6400BD9FC0 /* EditViewController.m */,
 				659390E31E1B6FF800BD6051 /* FindMyFriends.xcdatamodeld */,
 				659390E01E1B6E4B00BD6051 /* CoreDataManager.h */,
 				659390E11E1B6E4B00BD6051 /* CoreDataManager.m */,
+				659390F91E1E1F0E00BD6051 /* CoreDataManagerForEvent.h */,
+				659390FA1E1E1F0E00BD6051 /* CoreDataManagerForEvent.m */,
 				65B7C1B11E092DD50049498E /* LaunchScreen.storyboard */,
 				65B7C1B41E092DD50049498E /* Info.plist */,
 				652C9EBA1E1249BD00BD9FC0 /* Assets.xcassets */,
@@ -215,10 +220,11 @@
 				65B7C1A81E092DD50049498E /* AppDelegate.m in Sources */,
 				65B7C1A51E092DD50049498E /* main.m in Sources */,
 				659390EA1E1BA2AB00BD6051 /* FriendsViewController.m in Sources */,
+				659390FB1E1E1F0E00BD6051 /* CoreDataManagerForEvent.m in Sources */,
 				659390E51E1B6FF800BD6051 /* FindMyFriends.xcdatamodeld in Sources */,
 				65B7C1C41E0A39B50049498E /* postAndGetLocation.m in Sources */,
+				659390F81E1DDBE900BD6051 /* MapViewAction.m in Sources */,
 				652C9EB91E111C6400BD9FC0 /* EditViewController.m in Sources */,
-				659390F21E1D0C0400BD6051 /* showLocation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
