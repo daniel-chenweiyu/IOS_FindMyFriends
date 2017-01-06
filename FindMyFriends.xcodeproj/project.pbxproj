@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		652C9EB91E111C6400BD9FC0 /* EditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 652C9EB81E111C6400BD9FC0 /* EditViewController.m */; };
 		652C9EBB1E1249BD00BD9FC0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 652C9EBA1E1249BD00BD9FC0 /* Assets.xcassets */; };
+		6564B5811E1E7C9200EA3E3E /* HistoryRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6564B5801E1E7C9200EA3E3E /* HistoryRecordTableViewCell.m */; };
 		659390E21E1B6E4B00BD6051 /* CoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 659390E11E1B6E4B00BD6051 /* CoreDataManager.m */; };
 		659390E51E1B6FF800BD6051 /* FindMyFriends.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 659390E31E1B6FF800BD6051 /* FindMyFriends.xcdatamodeld */; };
 		659390E71E1B730100BD6051 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 659390E61E1B730100BD6051 /* CoreData.framework */; };
@@ -31,6 +32,8 @@
 		652C9EB71E111C6400BD9FC0 /* EditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditViewController.h; sourceTree = "<group>"; };
 		652C9EB81E111C6400BD9FC0 /* EditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditViewController.m; sourceTree = "<group>"; };
 		652C9EBA1E1249BD00BD9FC0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6564B57F1E1E7C9200EA3E3E /* HistoryRecordTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryRecordTableViewCell.h; sourceTree = "<group>"; };
+		6564B5801E1E7C9200EA3E3E /* HistoryRecordTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryRecordTableViewCell.m; sourceTree = "<group>"; };
 		659390E01E1B6E4B00BD6051 /* CoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataManager.h; sourceTree = "<group>"; };
 		659390E11E1B6E4B00BD6051 /* CoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataManager.m; sourceTree = "<group>"; };
 		659390E41E1B6FF800BD6051 /* FindMyFriends.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FindMyFriends.xcdatamodel; sourceTree = "<group>"; };
@@ -135,6 +138,8 @@
 			children = (
 				65B7C1A61E092DD50049498E /* AppDelegate.h */,
 				65B7C1A71E092DD50049498E /* AppDelegate.m */,
+				6564B57F1E1E7C9200EA3E3E /* HistoryRecordTableViewCell.h */,
+				6564B5801E1E7C9200EA3E3E /* HistoryRecordTableViewCell.m */,
 				6564B57D1E1E4B5900EA3E3E /* ViewController */,
 				6564B57E1E1E4B8D00EA3E3E /* MethodClass */,
 				6564B57C1E1E4B1E00EA3E3E /* CoreData */,
@@ -246,6 +251,7 @@
 				659390EA1E1BA2AB00BD6051 /* FriendsViewController.m in Sources */,
 				659390FB1E1E1F0E00BD6051 /* CoreDataManagerForEvent.m in Sources */,
 				659390E51E1B6FF800BD6051 /* FindMyFriends.xcdatamodeld in Sources */,
+				6564B5811E1E7C9200EA3E3E /* HistoryRecordTableViewCell.m in Sources */,
 				65B7C1C41E0A39B50049498E /* postAndGetLocation.m in Sources */,
 				659390F81E1DDBE900BD6051 /* MapViewAction.m in Sources */,
 				652C9EB91E111C6400BD9FC0 /* EditViewController.m in Sources */,

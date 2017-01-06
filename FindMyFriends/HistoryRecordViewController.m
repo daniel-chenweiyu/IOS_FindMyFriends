@@ -8,10 +8,12 @@
 
 #import "HistoryRecordViewController.h"
 #import "Event+CoreDataClass.h"
+#import "HistoryRecordTableViewCell.h"
 
 @interface HistoryRecordViewController () <UITableViewDelegate,UITableViewDataSource> {
     CoreDataManagerForEvent * dataManagerForEvent;
 }
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -37,14 +39,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    Event * item = (Event*)[dataManagerForEvent getByIndex:indexPath.row];
-    cell.textLabel.text = item.title;
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
-    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-    NSDate * date = [dateFormatter stringFromDate:item.endTime];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",date];
+    HistoryRecordTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    Event * eventItem = (Event*)[dataManagerForEvent getByIndex:indexPath.row];
+    cell.titleLabel.text = eventItem.title;
+    NSDate * date = [self dateFormatWithDate:eventItem.endTime];
+    cell.dateLabel.text = [NSString stringWithFormat:@"%@",date];
+    cell.infoBtn.tag = indexPath.row;
+    [cell.infoBtn addTarget:self action:@selector(showInfoWithBtn:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 
@@ -74,6 +75,76 @@
     coordinate = currentLocation.coordinate;
     [showFriendsLocation showLocationWithCLLocationCoordinate2D:coordinate mapView:_mainMapView];
     [showFriendsLocation drawLineWithArray:locations mapView:self.mainMapView];
+}
+
+- (void) showInfoWithBtn:(UIButton*)sender {
+    
+    Event * eventItem = (Event*)[dataManagerForEvent getByIndex:sender.tag];
+    NSString * startTime = [NSString stringWithFormat:@"%@",[self dateFormatWithDate: eventItem.startTime]];
+    NSString * endTime = [NSString stringWithFormat:@"%@",[self dateFormatWithDate: eventItem.endTime]];
+    double meter = eventItem.totalMile;
+    double km = meter / 1000;
+    //    eventItem.startTime eventItem.title
+    NSString * message = [NSString stringWithFormat:@"備註：%@\n建立者：%@\n起始時間：%@\n結束時間：%@\n時程：%0.0f sec\n距離：%.03f km",eventItem.descripe,eventItem.userName,startTime,endTime,eventItem.spanTime,km];
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:eventItem.title message:message preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    
+    UIAlertAction *edit = [UIAlertAction actionWithTitle:@"Edit" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        UIAlertController* alertEdit = [UIAlertController alertControllerWithTitle:@"編輯" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertEdit addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"事件標題";
+            textField.text = eventItem.title;
+        }];
+        
+        [alertEdit addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"備註";
+            textField.text = eventItem.descripe;
+        }];
+        
+        UIAlertAction * editSend = [UIAlertAction actionWithTitle:@"Send" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSMutableDictionary  * eventDictionary = [NSMutableDictionary new];
+            eventDictionary[@"startTime"] = eventItem.startTime;
+            eventDictionary[@"id"] = [NSNumber numberWithInt:eventItem.id];
+            eventDictionary[@"userName"] = eventItem.userName;
+            eventDictionary[@"title"] = alertEdit.textFields.firstObject.text;
+            eventDictionary[@"descripe"] = alertEdit.textFields.lastObject.text;
+            eventDictionary[@"endTime"] = eventItem.endTime;
+            eventDictionary[@"locations"] = eventItem.locations;
+            eventDictionary[@"totalMile"] = [NSNumber numberWithDouble:eventItem.totalMile];
+            eventDictionary[@"spanTime"] = [NSNumber numberWithInt:eventItem.spanTime];
+            CoreDataAction * coreDataAction = [CoreDataAction new];
+            [coreDataAction editWithDefault:eventItem dataDictionary:eventDictionary entityName:@"Event" completion:^(bool success, NSManagedObject *result) {
+                if (success) {
+                    [dataManagerForEvent saveContextWithCompletion:nil];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableView reloadData];
+                    });
+                }
+            }];
+        }];
+        
+        UIAlertAction * editCancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+        
+        [alertEdit addAction:editCancel];
+        [alertEdit addAction:editSend];
+        [self presentViewController:alertEdit animated:true completion:nil];
+    }];
+    
+    [alert addAction:edit];
+    [alert addAction:ok];
+    [self presentViewController:alert animated:true completion:nil];
+}
+
+- (NSDate*) dateFormatWithDate:(NSDate*)date {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    NSDate * newDate = [dateFormatter stringFromDate:date];
+    return newDate;
 }
 
 - (IBAction)backBtn:(UIBarButtonItem *)sender {

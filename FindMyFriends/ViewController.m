@@ -21,6 +21,7 @@
     NSUserDefaults * userDefaults;
     NSMutableArray * thisAppEdit;
     CoreDataManager * dataManager;
+    CoreDataManagerForEvent * dataManagerForEvent;
     CoreDataAction * coreDataAction;
     MapViewAction * mapViewAction;
     MKPolylineView * lineView;
@@ -53,6 +54,10 @@
     //set drowLineArray
     mapViewAction = [MapViewAction new];
     coordinateArray = [NSMutableArray new];
+    //set coreDataManagerForEvent
+    NSString * entityName = @"Event";
+    dataManagerForEvent = [coreDataAction coreDataManagerForEventSettingWithEntityName:entityName];
+    dataManagerForEvent.count;
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -134,6 +139,7 @@
 - (IBAction)recordBtn:(UIButton *)sender {
     if (recordTarget == false) {
         [self userTrackingModeChangedWithTargetIndex:1];
+        [self userDefaultsSetting];
         [_startAndStopRecordBtn setImage:[UIImage imageNamed:@"stop"] forState:UIControlStateNormal];
         recordTarget = true;
         self.barLabel.text = @"紀錄中";
@@ -165,7 +171,7 @@
         [userDefaults setObject:eventId forKey:@"eventId"];
         [userDefaults synchronize];
         NSString * entityName = @"Event";
-        CoreDataManagerForEvent * dataManagerForEvent = [coreDataAction coreDataManagerForEventSettingWithEntityName:entityName];
+//        CoreDataManagerForEvent * dataManagerForEvent = [coreDataAction coreDataManagerForEventSettingWithEntityName:entityName];
         [coreDataAction editWithDefault:nil dataDictionary:eventDictionary entityName:entityName completion:^(bool success, NSManagedObject *result) {
             if (success) {
                 [dataManagerForEvent saveContextWithCompletion:nil];

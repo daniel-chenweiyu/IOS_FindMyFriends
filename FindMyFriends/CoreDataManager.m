@@ -203,7 +203,7 @@ static CoreDataManager *_singletonCoreDataManager = nil;
 
 - (NSArray *)searchFor:(NSString *)keyword withField:(NSString *)field {
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:finalEntityName];
-    NSString *format = [NSString stringWithFormat:@"%@ cintains[cd] %%@",field];
+    NSString *format = [NSString stringWithFormat:@"%@ contains[cd] %%@",field];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:format,keyword];
     request.predicate = predicate;
     NSArray *result = [_managedObjectContext executeFetchRequest:request error:nil];
